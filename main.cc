@@ -10,7 +10,7 @@ struct Flags {
   std::optional<std::filesystem::path> tag_file_path;
   std::optional<std::filesystem::path> out_file_path;
   uint8_t pixel_window_radius{ 1 };
-  char afinity_function {'a'};
+  char afinity_function{ 'a' };
 };
 
 void print_help() {}

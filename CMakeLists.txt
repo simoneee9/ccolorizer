@@ -7,10 +7,16 @@ project(
 )
 
 set(EXE_NAME "ccolorize")
-
 add_executable(${EXE_NAME} main.cc)
 
 add_subdirectory(src/colorizer)
 
-target_link_libraries(${EXE_NAME} colorizer)
+target_include_directories(${EXE_NAME}
+  PUBLIC src/colorizer
+)
 
+target_link_directories(${EXE_NAME}
+  PRIVATE src/colorizer
+)
+
+target_link_libraries(${EXE_NAME} colorizer)

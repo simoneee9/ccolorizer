@@ -41,7 +41,7 @@ private:
   Image out_image_;
 
   std::vector<bool> detectTaggedPixels();
-  SparseMatrix analyzeImage(const std::vector<bool>& tagged_pixels) const;
+  SparseMatrix analyzeImage(uint8_t pixel_window_raidus, const std::vector<bool>& tagged_pixels) const;
 
   bool solveEquations(const SparseMatrix& sparse);   
 };

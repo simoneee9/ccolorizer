@@ -6,10 +6,15 @@ project(
   LANGUAGES CXX
 )
 
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_FLAGS "-std=c++2b -lstdc++fs")
+
 set(EXE_NAME "ccolorize")
 add_executable(${EXE_NAME} main.cc)
 
+
 add_subdirectory(src/colorizer)
+include_directories(src/colorizer)
 
 target_include_directories(${EXE_NAME}
   PUBLIC src/colorizer

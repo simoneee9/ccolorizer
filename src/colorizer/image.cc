@@ -1,9 +1,10 @@
 #include "header/image.hh"
+#include "header/image_loader.hh"
 #include <utility>
 
 Image::Image(std::filesystem::path p)
 {
-  initialized_ = load(p); 
+  initialized_ = load(p);
 }
 
 // copy
@@ -28,23 +29,27 @@ Image::Image(Image&& other) noexcept
 }
 
 Image& Image::operator=(Image&& other) noexcept
-{ 
+{
   path_ = other.path_;
   initialized_ = other.initialized_;
-  data_ = std::move(other.data_); 
+  data_ = std::move(other.data_);
   return *this;
 }
 
 bool Image::load(std::filesystem::path p)
 {
-
+  LoadedImage loaded = ImageLoader::load(p);
+  width_ = loaded.width;
+  height_ = loaded.height;
+  data_ = std::move(loaded.data);
+  initialized_ = true;
   return initialized_;
 }
 
 bool Image::create(std::filesystem::path p)
 {
   // create file
-  
+
   return save();
 }
 
@@ -62,4 +67,14 @@ Pixel& Image::operator[](size_t index)
 const Pixel& Image::operator[](size_t index) const
 {
   return data_[index];
+}
+
+Pixel& Image::operator[](Coordinates p)
+{
+   return data_[toIndex(p, height_)];
+}
+
+const Pixel& Image::operator[](Coordinates p) const
+{
+   return data_[toIndex(p, height_)];
 }

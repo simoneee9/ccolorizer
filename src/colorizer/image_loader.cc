@@ -8,13 +8,13 @@
 #include <stdexcept>
 #include <sys/types.h>
 
-LoadedImage ImageLoader::load(std::filesystem::path p)
+LoadedImage ImageLoader::load(const std::filesystem::path& p)
 {
     // todo
     return sail_load(p);
 }
 
-LoadedImage ImageLoader::sail_load(std::filesystem::path p)
+LoadedImage ImageLoader::sail_load(const std::filesystem::path& p)
 {
     LoadedImage loaded{};
     sail::image_input in{p};

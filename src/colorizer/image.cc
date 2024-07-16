@@ -2,7 +2,7 @@
 #include "header/image_loader.hh"
 #include <utility>
 
-Image::Image(std::filesystem::path p)
+Image::Image(const std::filesystem::path& p)
 {
   initialized_ = load(p);
 }
@@ -36,7 +36,7 @@ Image& Image::operator=(Image&& other) noexcept
   return *this;
 }
 
-bool Image::load(std::filesystem::path p)
+bool Image::load(const std::filesystem::path& p)
 {
   LoadedImage loaded = ImageLoader::load(p);
   width_ = loaded.width;
@@ -46,7 +46,7 @@ bool Image::load(std::filesystem::path p)
   return initialized_;
 }
 
-bool Image::create(std::filesystem::path p)
+bool Image::create(const std::filesystem::path& p)
 {
   // create file
 

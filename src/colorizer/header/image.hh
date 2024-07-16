@@ -17,11 +17,17 @@ inline bool operator==(const Dimensions& lhs, const Dimensions& rhs)
   return lhs.width == rhs.width && lhs.height == rhs.height;
 }
 
+inline bool operator!=(const Dimensions& lhs, const Dimensions& rhs)
+{
+    return !(lhs == rhs);
+}
+
+
 class Image
 {
 public:
   Image() = default;
-  Image(std::filesystem::path p);
+  Image(const std::filesystem::path& p);
   ~Image() = default;
 
   // copy
@@ -32,13 +38,15 @@ public:
   Image(Image&& other) noexcept;
   Image& operator=(Image&& other) noexcept;
 
-  bool load(std::filesystem::path p);
-  bool create(std::filesystem::path p);
+  bool load(const std::filesystem::path& p);
+  bool create(const std::filesystem::path& p);
   bool save() const;
 
   inline operator bool() const { return initialized_; }
 
   inline Dimensions size() const { return { width_, height_ }; }
+  inline uint64_t width() const { return width_; }
+  inline uint64_t height() const { return height_; }
 
   inline std::vector<Pixel>::iterator begin() noexcept { return data_.begin(); }
   inline std::vector<Pixel>::const_iterator cbegin() noexcept
@@ -61,6 +69,7 @@ public:
   {
     return { (index - (index % h) / h), index % h };
   }
+
   inline static size_t toIndex(const Coordinates& dim, uint32_t h)
   {
     return dim.height * h + dim.width;

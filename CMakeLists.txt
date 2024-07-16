@@ -7,6 +7,8 @@ project(
 )
 
 set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "-std=c++2b -lstdc++fs")
 
 set(EXE_NAME "ccolorize")
@@ -14,7 +16,7 @@ add_executable(${EXE_NAME} main.cc)
 
 
 add_subdirectory(src/colorizer)
-include_directories(src/colorizer)
+include_directories(src/colorizer/header)
 
 target_include_directories(${EXE_NAME}
   PUBLIC src/colorizer
@@ -24,4 +26,4 @@ target_link_directories(${EXE_NAME}
   PRIVATE src/colorizer
 )
 
-target_link_libraries(${EXE_NAME} colorizer)
+target_link_libraries(${EXE_NAME} colorizer stdc++fs)

@@ -10,8 +10,8 @@ using SparseData = std::vector<double>;
 
 struct SparseMatrix
 {
-  SparseAxis cols;
   SparseAxis rows;
+  SparseAxis cols;
   SparseData data;
 };
 
@@ -41,7 +41,9 @@ private:
   Image out_image_;
 
   std::vector<bool> detectTaggedPixels();
-  SparseMatrix analyzeImage(uint8_t pixel_window_raidus, const std::vector<bool>& tagged_pixels) const;
+  SparseMatrix analyzeImage(uint8_t pixel_window_radius, const std::vector<bool>& tagged_pixels) const;
 
   bool solveEquations(const SparseMatrix& sparse);   
+
+  void pixelWeights(const Coordinates& pixel, uint8_t radius, SparseMatrix& mat) const;
 };

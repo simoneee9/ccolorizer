@@ -1,0 +1,18 @@
+IndentWidth: 2
+
+PointerAlignment: Left
+AlignConsecutiveAssignments:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: false
+
+Cpp11BracedListStyle: false
+BreakBeforeBraces: Mozilla
+
+# Should be declared this way:
+SpacesInParens: Custom
+SpacesInParensOptions:
+  ExceptDoubleParentheses: true
+  InConditionalStatements: true
+  InEmptyParentheses: false
+  Other: true

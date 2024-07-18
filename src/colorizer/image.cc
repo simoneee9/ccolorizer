@@ -1,6 +1,7 @@
 #include "header/image.hh"
 #include "header/image_loader.hh"
 #include <utility>
+#include <iostream>
 
 Image::Image(const std::filesystem::path& p)
 {
@@ -48,6 +49,7 @@ bool Image::load(const std::filesystem::path& p)
 
 bool Image::create(const std::filesystem::path& p)
 {
+  path_ = p;
   // create file
 
   return save();
@@ -55,8 +57,12 @@ bool Image::create(const std::filesystem::path& p)
 
 bool Image::save() const
 {
+  LoadedImage li;
+  li.data = data_;
+  li.width = width_;
+  li.height = height_;
 
-  return true;
+  return ImageLoader::save(li, path_);
 }
 
 Pixel& Image::operator[](size_t index)

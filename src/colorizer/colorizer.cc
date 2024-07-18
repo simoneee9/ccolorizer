@@ -1,5 +1,6 @@
 #include "header/colorizer.hh"
 #include <algorithm>
+#include <cfloat>
 #include <cmath>
 #include <cstdlib>
 
@@ -13,7 +14,7 @@ bool Colorizer::colorize()
     return false;
 
   auto tagged = detectTaggedPixels();
-  auto sparse = analyzeImage(tagged);
+  auto sparse = analyzeImage(1, tagged);
 
   return solveEquations(sparse);
 }
@@ -36,15 +37,16 @@ std::vector<bool> Colorizer::detectTaggedPixels()
 }
 
 SparseMatrix
-Colorizer::analyzeImage(uint8_t pixel_window_raidus,
+Colorizer::analyzeImage(uint8_t pixel_window_radius,
                         const std::vector<bool>& tagged_pixels) const
 {
   auto [w, h]               = in_image_.size();
-  uint64_t pixels_in_window = std::pow(2 * pixel_window_raidus + 1, 2);
+  uint64_t pixels_in_window = std::pow(2 * pixel_window_radius + 1, 2);
   uint64_t matrix_size      = w * h * pixels_in_window;
 
   SparseAxis rows(matrix_size), cols(matrix_size);
   SparseData data(matrix_size);
+  SparseMatrix mat{ cols, rows, data };
 
   std::vector<int32_t> a_channel(w * h, 0), b_channel(w * h, 0);
   uint64_t img_index;
@@ -63,11 +65,53 @@ Colorizer::analyzeImage(uint8_t pixel_window_raidus,
         b_channel[img_index] = tag_image_[img_index].b;
       } else {
         // not tagged, calculate weights
+        pixelWeights({ x, y }, pixel_window_radius, mat);
       }
     }
   }
-  for (size_t i = 0; i < (w * h); i++) {
+}
+
+void Colorizer::pixelWeights(const Coordinates& pixel, uint8_t radius,
+                             SparseMatrix& mat) const
+{
+  uint16_t one_side = 2 * radius + 1;
+  const auto [x, y] = pixel;
+  uint64_t h        = in_image_.height();
+
+  uint64_t min_x{ 0 }, max_x{ in_image_.width() }, min_y{ 0 },
+      max_y{ in_image_.height() };
+
+  if (x > radius)
+    min_x = x - radius;
+  if (x + radius < in_image_.width())
+    max_x = x + radius;
+  if (y > radius)
+    min_y = y - radius;
+  if (y + radius < in_image_.height())
+    max_y = y + radius;
+
+  uint32_t num_pixels = (max_x - min_x + 1) * (max_y - min_y + 1);
+
+  // calculate mean & variance first
+  uint64_t sum{ 0 };
+  uint64_t luminance;
+  double variance{ 0.0 };
+  for (uint64_t i = min_x; i < max_x; i++) {
+    for (uint64_t j = min_y; j < max_y; j++) {
+      luminance = in_image_[Image::toIndex({ i, j }, h)].L;
+      sum += luminance;
+      variance += std::pow(luminance, 2.0);
+    }
   }
+
+  double mean = sum / static_cast<double>(num_pixels);
+  if (mean < DBL_EPSILON)
+    mean = 1e-6;
+
+  variance = (variance / static_cast<double>(num_pixels)) - std::pow(mean, 2.);
+
+  uint64_t idx = Image::toIndex({x, y}, h);
+
 }
 
 bool Colorizer::solveEquations(const SparseMatrix& sparse) {}

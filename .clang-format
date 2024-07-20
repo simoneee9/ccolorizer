@@ -12,7 +12,6 @@ BreakBeforeBraces: Mozilla
 # Should be declared this way:
 SpacesInParens: Custom
 SpacesInParensOptions:
-  ExceptDoubleParentheses: true
   InConditionalStatements: true
   InEmptyParentheses: false
   Other: true

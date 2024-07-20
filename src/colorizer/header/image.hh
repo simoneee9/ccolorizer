@@ -5,41 +5,41 @@
 
 #include "pixel.hh"
 
-struct Dimensions {
+struct Dimensions
+{
   uint64_t width;
   uint64_t height;
 };
 
 using Coordinates = Dimensions;
 
-inline bool operator==(const Dimensions& lhs, const Dimensions& rhs)
+inline bool operator==( const Dimensions& lhs, const Dimensions& rhs )
 {
   return lhs.width == rhs.width && lhs.height == rhs.height;
 }
 
-inline bool operator!=(const Dimensions& lhs, const Dimensions& rhs)
+inline bool operator!=( const Dimensions& lhs, const Dimensions& rhs )
 {
-    return !(lhs == rhs);
+  return !( lhs == rhs );
 }
-
 
 class Image
 {
 public:
   Image() = default;
-  Image(const std::filesystem::path& p);
+  Image( const std::filesystem::path& p );
   ~Image() = default;
 
   // copy
-  Image(const Image& other);
-  Image& operator=(const Image& other);
+  Image( const Image& other );
+  Image& operator=( const Image& other );
 
   // move
-  Image(Image&& other) noexcept;
-  Image& operator=(Image&& other) noexcept;
+  Image( Image&& other ) noexcept;
+  Image& operator=( Image&& other ) noexcept;
 
-  bool load(const std::filesystem::path& p);
-  bool create(const std::filesystem::path& p);
+  bool load( const std::filesystem::path& p );
+  bool create( const std::filesystem::path& p );
   bool save() const;
 
   inline operator bool() const { return initialized_; }
@@ -59,18 +59,18 @@ public:
     return data_.cend();
   }
 
-  Pixel& operator[](size_t index);
-  const Pixel& operator[](size_t index) const;
+  Pixel& operator[]( size_t index );
+  const Pixel& operator[]( size_t index ) const;
 
-  Pixel& operator[](Coordinates p);
-  const Pixel& operator[](Coordinates p) const;
+  Pixel& operator[]( Coordinates p );
+  const Pixel& operator[]( Coordinates p ) const;
 
-  inline static Coordinates toCoordinates(size_t index, uint32_t w)
+  inline static Coordinates toCoordinates( size_t index, uint32_t w )
   {
-    return { (index - (index % w) / w), index % w };
+    return { ( index - ( index % w ) / w ), index % w };
   }
 
-  inline static size_t toIndex(const Coordinates& dim, uint32_t w)
+  inline static size_t toIndex( const Coordinates& dim, uint32_t w )
   {
     return dim.height * w + dim.width;
   }

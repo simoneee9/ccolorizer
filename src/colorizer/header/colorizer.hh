@@ -21,12 +21,12 @@ public:
   Colorizer();
   ~Colorizer();
 
-  bool loadInputImage(std::filesystem::path p);
-  bool loadTaggedImage(std::filesystem::path p);
+  bool loadInputImage( std::filesystem::path p );
+  bool loadTaggedImage( std::filesystem::path p );
 
-  bool colorize(uint8_t pixel_window_radius, char afinity = 'a');
+  bool colorize( uint8_t pixel_window_radius, char afinity = 'a' );
 
-  bool saveOutputImage(std::filesystem::path p);
+  bool saveOutputImage( std::filesystem::path p );
 
   /* prepare the object for reuse */
   void restore();
@@ -41,9 +41,11 @@ private:
   Image out_image_;
 
   std::vector<bool> detectTaggedPixels();
-  SparseMatrix analyzeImage(uint8_t pixel_window_radius, const std::vector<bool>& tagged_pixels) const;
+  SparseMatrix analyzeImage( uint8_t pixel_window_radius,
+                             const std::vector<bool>& tagged_pixels ) const;
 
-  bool solveEquations(const SparseMatrix& sparse);   
+  bool solveEquations( const SparseMatrix& sparse );
 
-  void pixelWeights(const Coordinates& pixel, uint8_t radius, SparseMatrix& mat) const;
+  void pixelWeights( const Coordinates& pixel, uint8_t radius,
+                     SparseMatrix& mat ) const;
 };

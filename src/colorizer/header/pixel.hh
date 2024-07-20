@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <array>
 #include <cstdint>
-#include <iostream>
 
 struct Pixel
 {
@@ -24,9 +23,10 @@ struct Pixel
     // double z_tris = 0.0193339 * r_n + 0.1191920 * g_n + 0.9503041 * b_n;
 
     // actually converting to YUV hehehehee
-    L =  0.229 * r_n + 0.587 * g_n + 0.114 * b_n + 16;
-    a = -0.147 * r_n - 0.289 * g_n + 0.436 * b_n + 128;
-    b =  0.615 * r_n - 0.515 * g_n - 0.100 * b_n + 128;
+    L =  0.257 * r_n + 0.504 * g_n + 0.098 * b_n + 16;
+    a = -0.148 * r_n - 0.291 * g_n + 0.439 * b_n + 128;
+    b =  0.439 * r_n - 0.368 * g_n - 0.071 * b_n + 128;
+
   }
 
   // int32_t L;

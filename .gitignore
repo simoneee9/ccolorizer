@@ -2,7 +2,7 @@ build/
 .cache/
 
 vgcore*
-new_image.jpeg
+*.jpeg
 
 # binaries
 ccolorize

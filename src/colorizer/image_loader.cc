@@ -40,9 +40,6 @@ LoadedImage ImageLoader::sail_load(const std::filesystem::path &p) {
     const uint8_t *row = reinterpret_cast<uint8_t *>(img.scan_line(y));
 
     for (uint64_t x = 0; x < loaded.width; ++x) {
-      // Pixel(x, y, row[3*x], row[(3*x) + 1], row[(3*x) + 2]);
-      // loaded.data.push_back(Pixel(x, y, row[3*x], row[(3*x) + 1], row[(3*x) + 2]));
-
       loaded.data.push_back(Pixel(x, y, row[3 * x], row[3 * x + 1], row[3 * x + 2]));
     }
   }
@@ -55,6 +52,7 @@ bool ImageLoader::sail_save(const LoadedImage &li,
 
   sail::image img(SailPixelFormat::SAIL_PIXEL_FORMAT_BPP24_RGB, li.width,
                   li.height);
+
 
   for (uint64_t y = 0; y < li.height; ++y) {
     // Ownership is not mine, don't delete this
@@ -70,6 +68,7 @@ bool ImageLoader::sail_save(const LoadedImage &li,
       row[3 * x + 2] = rgb[2];
     }
   }
+  img.set_gamma(0.3);
   
   return SAIL_OK == img.save(p);
 }

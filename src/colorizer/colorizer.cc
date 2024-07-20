@@ -8,7 +8,27 @@ Colorizer::Colorizer() {}
 
 Colorizer::~Colorizer() {}
 
-bool Colorizer::colorize()
+bool Colorizer::loadInputImage( std::filesystem::path p )
+{
+  in_image_ = Image( p );
+  return static_cast<bool>( in_image_ );
+}
+
+bool Colorizer::loadTaggedImage( std::filesystem::path p )
+{
+  tag_image_ = Image( p );
+  return static_cast<bool>( tag_image_ );
+}
+
+bool Colorizer::saveOutputImage( std::filesystem::path p )
+{
+  if ( !out_image_ || !colorized_ )
+    return false;
+
+  return out_image_.create( p );
+}
+
+bool Colorizer::colorize(uint8_t pixel_window_radius, char afinity)
 {
   if ( !in_image_ || !tag_image_ )
     return false;
@@ -27,7 +47,7 @@ std::vector<bool> Colorizer::detectTaggedPixels()
   auto [w, h] = in_image_.size();
   std::vector<bool> tagged( w * h, false );
   auto isTagged = []( const Pixel& a, const Pixel& b ) {
-    return 2 > abs( a.L - b.L );
+    return 2 > fabs( a.L - b.L );
   };
 
   std::transform( in_image_.begin(), in_image_.end(), tag_image_.begin(),

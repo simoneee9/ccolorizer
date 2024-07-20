@@ -42,14 +42,18 @@ bool Image::load( const std::filesystem::path& p )
 
 bool Image::create( const std::filesystem::path& p )
 {
+  if ( !initialized_ )
+    return false;
   path_ = p;
-  // create file
 
   return save();
 }
 
 bool Image::save() const
 {
+  if ( !initialized_ )
+    return false;
+
   LoadedImage li;
   li.data   = data_;
   li.width  = width_;

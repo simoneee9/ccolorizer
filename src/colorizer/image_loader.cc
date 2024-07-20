@@ -22,7 +22,6 @@ bool ImageLoader::save( const LoadedImage& li, const std::filesystem::path& p )
 
 LoadedImage ImageLoader::sail_load( const std::filesystem::path& p )
 {
-  LoadedImage loaded{};
   sail::image img( p );
 
   if ( !img.is_valid() )
@@ -35,6 +34,7 @@ LoadedImage ImageLoader::sail_load( const std::filesystem::path& p )
   if ( SAIL_OK != img.convert( SAIL_PIXEL_FORMAT_BPP24_RGB ) )
     throw std::runtime_error( "Failed to convert image to RGB" );
 
+  LoadedImage loaded{};
   loaded.width  = img.width();
   loaded.height = img.height();
   loaded.data.reserve( loaded.width * loaded.height );
@@ -55,7 +55,6 @@ LoadedImage ImageLoader::sail_load( const std::filesystem::path& p )
 bool ImageLoader::sail_save( const LoadedImage& li,
                              const std::filesystem::path& p )
 {
-
   sail::image img( SailPixelFormat::SAIL_PIXEL_FORMAT_BPP24_RGB, li.width,
                    li.height );
 
@@ -73,7 +72,6 @@ bool ImageLoader::sail_save( const LoadedImage& li,
       row[3 * x + 2] = rgb[2];
     }
   }
-  img.set_gamma( 0.3 );
 
   return SAIL_OK == img.save( p );
 }

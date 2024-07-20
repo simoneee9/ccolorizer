@@ -31,8 +31,6 @@ public:
   /* prepare the object for reuse */
   void restore();
 
-  bool colorize();
-
 private:
   bool colorized_{ false };
 

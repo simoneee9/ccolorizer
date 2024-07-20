@@ -1,6 +1,5 @@
 #include "header/image_loader.hh"
 #include <cstdint>
-#include <print>
 #include <sail-c++/image.h>
 #include <sail-c++/image_input.h>
 #include <sail-common/common.h>

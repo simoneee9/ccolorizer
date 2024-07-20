@@ -2,8 +2,8 @@
 
 #include <cstdint>
 #include <filesystem>
+#include <iostream>
 #include <optional>
-#include <print>
 
 struct Flags
 {
@@ -26,10 +26,9 @@ int main( int argc, char* argv[] )
   }
 
   Image i( "image.jpeg" );
+
   if ( !i.create( "new_image.jpeg" ) )
-    std::println( ":(" );
-  else
-    std::println( ":#" );
+    std::cout << "ERR" << std::endl;
 
   for ( int i = 0; i < argc; i++ ) {
   }

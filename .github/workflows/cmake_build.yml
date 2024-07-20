@@ -1,0 +1,18 @@
+name: cmake-build
+run-name: building with cmake
+on: [push]
+
+jobs:
+  build:
+    
+    runs-on: ubuntu-24.04
+
+    steps:
+      # download the repo
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: configure
+        run: ./configure.sh
+      - name: build
+        run: ./build.sh

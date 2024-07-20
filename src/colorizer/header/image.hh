@@ -65,14 +65,14 @@ public:
   Pixel& operator[](Coordinates p);
   const Pixel& operator[](Coordinates p) const;
 
-  inline static Coordinates toCoordinates(size_t index, uint32_t h)
+  inline static Coordinates toCoordinates(size_t index, uint32_t w)
   {
-    return { (index - (index % h) / h), index % h };
+    return { (index - (index % w) / w), index % w };
   }
 
-  inline static size_t toIndex(const Coordinates& dim, uint32_t h)
+  inline static size_t toIndex(const Coordinates& dim, uint32_t w)
   {
-    return dim.height * h + dim.width;
+    return dim.height * w + dim.width;
   }
 
 private:

@@ -22,9 +22,9 @@ struct Pixel
     // double z_tris = 0.0193339 * r_n + 0.1191920 * g_n + 0.9503041 * b_n;
 
     // actually converting to YUV hehehehee
-    L =  0.257 * r_n + 0.504 * g_n + 0.098 * b_n + 16;
-    a = -0.148 * r_n - 0.291 * g_n + 0.439 * b_n + 128;
-    b =  0.439 * r_n - 0.368 * g_n - 0.071 * b_n + 128;
+    L =  0.257 * r + 0.504 * g + 0.098 * b + 16;
+    a = -0.148 * r - 0.291 * g + 0.439 * b + 128;
+    b =  0.439 * r - 0.368 * g - 0.071 * b + 128;
 
   }
 
@@ -46,9 +46,9 @@ struct Pixel
     double a_t = a - 128;
     double b_t = b - 128;
 
-    uint8_t r = 1.164 * L_t             + 1.596 * b;
-    uint8_t g = 1.164 * L_t - 0.392 * a - 0.813 * b;
-    uint8_t b = 1.164 * L_t + 2.017 * a            ;
+    uint8_t r = 1.164 * L_t               + 1.596 * b_t;
+    uint8_t g = 1.164 * L_t - 0.392 * a_t - 0.813 * b_t;
+    uint8_t b = 1.164 * L_t + 2.017 * a_t              ;
 
     return {r, g, b};
   }

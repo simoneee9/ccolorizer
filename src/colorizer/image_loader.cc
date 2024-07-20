@@ -7,7 +7,6 @@
 #include <stdexcept>
 #include <sys/types.h>
 #include <print>
-#include <iostream>
 
 LoadedImage ImageLoader::load(const std::filesystem::path &p) {
   // todo
@@ -21,22 +20,7 @@ bool ImageLoader::save(const LoadedImage &li, const std::filesystem::path &p) {
 
 LoadedImage ImageLoader::sail_load(const std::filesystem::path &p) {
   LoadedImage loaded{};
-  sail::image_input in{p};
-  sail::image img{};
-
-  bool continue_loading = true;
-  while (true) {
-    auto sail_status = in.next_frame(&img);
-    if (sail_status == SAIL_OK)
-      continue;
-
-    if (sail_status == SAIL_ERROR_NO_MORE_FRAMES)
-      break;
-
-    auto placeholder = "An unexpected SAIL error happened with code";
-    throw std::runtime_error(placeholder + sail_status);
-  }
-  in.finish();
+  sail::image img(p);
 
   if (!img.is_valid())
     throw std::runtime_error("Failed to load image");
@@ -56,7 +40,10 @@ LoadedImage ImageLoader::sail_load(const std::filesystem::path &p) {
     const uint8_t *row = reinterpret_cast<uint8_t *>(img.scan_line(y));
 
     for (uint64_t x = 0; x < loaded.width; ++x) {
-      loaded.data.push_back(Pixel(row[3 * x], row[3 * x + 1], row[3 * x + 2], x, y));
+      // Pixel(x, y, row[3*x], row[(3*x) + 1], row[(3*x) + 2]);
+      // loaded.data.push_back(Pixel(x, y, row[3*x], row[(3*x) + 1], row[(3*x) + 2]));
+
+      loaded.data.push_back(Pixel(x, y, row[3 * x], row[3 * x + 1], row[3 * x + 2]));
     }
   }
 
@@ -74,7 +61,7 @@ bool ImageLoader::sail_save(const LoadedImage &li,
     uint8_t *row = reinterpret_cast<uint8_t *>(img.scan_line(y));
 
     for (uint64_t x = 0; x < li.width; ++x) {
-      uint64_t i = x * li.height + y;
+      uint64_t i = y * li.width + x;
       
       std::array<uint8_t, 3> rgb = li.data[i].to_rgb();
 

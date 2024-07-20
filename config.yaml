@@ -7,4 +7,3 @@ CompileFlags:
         - "-std=c++23"
         - "-fmodules-ts"
     Compiler: g++
-  #    Compiler: clang++

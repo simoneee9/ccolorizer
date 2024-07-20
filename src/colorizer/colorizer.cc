@@ -57,7 +57,7 @@ Colorizer::analyzeImage(uint8_t pixel_window_radius,
   while (x < w) {
     while (y < h) {
 
-      img_index = Image::toIndex({ x, y }, h);
+      img_index = Image::toIndex({ x, y }, w);
 
       if (tagged_pixels[img_index]) {
         // tagged
@@ -76,7 +76,7 @@ void Colorizer::pixelWeights(const Coordinates& pixel, uint8_t radius,
 {
   uint16_t one_side = 2 * radius + 1;
   const auto [x, y] = pixel;
-  uint64_t h        = in_image_.height();
+  uint64_t w        = in_image_.width();
 
   uint64_t min_x{ 0 }, max_x{ in_image_.width() }, min_y{ 0 },
       max_y{ in_image_.height() };
@@ -98,7 +98,7 @@ void Colorizer::pixelWeights(const Coordinates& pixel, uint8_t radius,
   double variance{ 0.0 };
   for (uint64_t i = min_x; i < max_x; i++) {
     for (uint64_t j = min_y; j < max_y; j++) {
-      luminance = in_image_[Image::toIndex({ i, j }, h)].L;
+      luminance = in_image_[Image::toIndex({ i, j }, w)].L;
       sum += luminance;
       variance += std::pow(luminance, 2.0);
     }
@@ -110,7 +110,7 @@ void Colorizer::pixelWeights(const Coordinates& pixel, uint8_t radius,
 
   variance = (variance / static_cast<double>(num_pixels)) - std::pow(mean, 2.);
 
-  uint64_t idx = Image::toIndex({x, y}, h);
+  uint64_t idx = Image::toIndex({x, y}, w);
 
 }
 

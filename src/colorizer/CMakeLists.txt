@@ -1,7 +1,5 @@
 include_directories(header/)
 
-# find_library(SAIL SailC libsail sail-img REQUIRED)
-# find_package(SAIL SailC++ libsail sail-img REQUIRED)
 find_package(SailC++ REQUIRED)
 
 

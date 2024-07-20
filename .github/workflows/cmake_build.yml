@@ -12,6 +12,8 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
+      - name: install sail
+        run: apt-get update && apt-get -y install libsail-c++-dev
       - name: configure
         run: ./configure.sh
       - name: build

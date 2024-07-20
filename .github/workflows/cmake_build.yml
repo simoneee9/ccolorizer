@@ -13,8 +13,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: install sail
-        run: sudo apt-get update && sudo apt-get -y install \
-             libsail-dev libsail-common-dev libsail-manip-dev libsail-c++-dev
+        run: sudo apt-get update && sudo apt-get -y install libsail-dev libsail-common-dev libsail-manip-dev libsail-c++-dev
       - name: configure
         run: ./configure.sh
       - name: build
